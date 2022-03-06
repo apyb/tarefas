@@ -1,0 +1,62 @@
+name: Boletim Mensal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 1 * *
+
+env:
+  LANG: "pt_BR.UTF-8"
+
+jobs:
+  create_issue:
+    name: Create team sync issue
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      issues: write
+
+    steps:
+      - name: Configura locale
+        run: |
+          sudo locale-gen pt_BR.UTF-8
+          sudo update-locale LANG=pt_BR.UTF-8
+
+      - name: date
+        run: |
+          date
+
+      - name: Extrai conteúdo do template boletim.md
+        uses: imjohnbo/extract-issue-template-fields@v0.0.1
+        id: extract
+        with:
+          path: .github/ISSUE_TEMPLATE/boletim.md
+
+      - name: Define título e atribuição da issue
+        id: script
+        run: |
+          # Define título
+          month=$(date +%B)
+          year=$(date +%Y)
+          title="Boletim Informativo de $month de $year"
+          echo "::set-output name=title::$title"
+
+          # Define atribuição
+          assignees[0]="tiidadavena"
+          assignees[1]="muriloviana"
+          assignees[2]="rougeth"
+          assignees[3]="anadulce"
+
+          month=$(date +%m)
+          size=${#assignees[@]}
+          index=$(($month % $size))
+          echo "::set-output name=assignee::${assignees[$index]}"
+
+      - name: Cria issue do boletim
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: ${{ steps.script.outputs.assignee }}
+          labels: ${{ steps.extract.outputs.labels }}
+          title: ${{ steps.script.outputs.title }}
+          body: ${{ steps.extract.outputs.body }}
