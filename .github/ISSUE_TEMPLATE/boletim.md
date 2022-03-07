@@ -4,7 +4,7 @@ about: Boletim Informativo Mensal
 title: "Boletim Informativo - <Mês>, <Ano>"
 labels: "Com Prazo"
 assignees: ''
-  ---
+---
 
 #### Template
 
