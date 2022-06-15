@@ -1,0 +1,63 @@
+name: Solicitação de Pagamento
+
+on: 
+  workflow_dispatch:
+    inputs:
+      event:
+        description: 'Evento (tag, ex: pybr2022)'     
+        required: true
+      description:
+        description: 'Descrição do pagamento'
+        required: true 
+      value:
+        description: 'Valor'
+        required: true         
+
+env:
+  LANG: "pt_BR.UTF-8"
+
+jobs:
+  new_issue:
+    name: Cria issue para novo pagamento
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      issues: write
+    steps:
+      - name: Configura locale
+        run: |
+          sudo locale-gen pt_BR.UTF-8
+          sudo update-locale LANG=pt_BR.UTF-8
+
+      - name: Template da issue
+        uses: imjohnbo/extract-issue-template-fields@v0.0.1
+        id: extract
+        with:
+          path: .github/ISSUE_TEMPLATE/solicitacao-pagamento.md
+
+      - name: Define título e texto
+        id: script
+        run: |
+          # Título
+          TITLE="Solicitação de Pagamento: $EVENT - $DESCRIPTION"
+          # Descrição
+          BODY=`sed "s/<evento>/${EVENT}/" <<< $ISSUE | sed "s/<descrição>/${DESCRIPTION}/" | sed "s/<valor>/${VALUE}/"`
+          
+          echo "::set-output name=title::$TITLE"
+          # Hack: set-output não suporta multilinhas    
+          echo "BODY<<EOF" >> $GITHUB_ENV
+          echo "$BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+        env:
+          EVENT: ${{ github.event.inputs.event }}
+          DESCRIPTION: ${{ github.event.inputs.description }}
+          VALUE: ${{ github.event.inputs.value }}
+          ISSUE: ${{ steps.extract.outputs.body }}
+
+      - name: Cria issue
+        uses: imjohnbo/issue-bot@v3
+        with:
+          title: ${{ steps.script.outputs.title }}
+          labels: "Financeiro"
+          body: ${{ env.BODY }}
