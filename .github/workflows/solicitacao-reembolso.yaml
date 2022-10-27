@@ -6,11 +6,11 @@ on:
       event:
         description: 'Evento (tag, ex: pybr2022)'
         required: true
-      description:
-        description: 'Descrição do reembolso'
+      person:
+        description: 'Pessoa favorecida do reembolso'
         required: true
       value:
-        description: 'Valor'
+        description: 'Valor total'
         required: true
 
 env:
@@ -40,9 +40,9 @@ jobs:
         id: script
         run: |
           # Título
-          TITLE="Solicitação de Reembolso: $EVENT - $DESCRIPTION"
+          TITLE="Solicitação de Reembolso: $EVENT - $PERSON"
           # Descrição
-          BODY=`sed "s/<evento>/${EVENT}/" <<< $ISSUE | sed "s/<descrição>/${DESCRIPTION}/" | sed "s/<valor>/${VALUE}/"`
+          BODY=`sed "s/<evento>/${EVENT}/" <<< $ISSUE | sed "s/<pessoa_favorecida>/${PERSON}/" | sed "s/<valor>/${VALUE}/"`
 
           echo "::set-output name=title::$TITLE"
           # Hack: set-output não suporta multilinhas
@@ -51,7 +51,7 @@ jobs:
           echo "EOF" >> $GITHUB_ENV
         env:
           EVENT: ${{ github.event.inputs.event }}
-          DESCRIPTION: ${{ github.event.inputs.description }}
+          PERSON: ${{ github.event.inputs.person }}
           VALUE: ${{ github.event.inputs.value }}
           ISSUE: ${{ steps.extract.outputs.body }}
 
