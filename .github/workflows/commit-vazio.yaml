@@ -23,7 +23,7 @@ jobs:
       run: git checkout repo/commits-vazios
 
     - name: Cria commit vazio
-      run: git commit --allow-empty -m "Commit mensal para manter o repositório ativo""
+      run: git commit --allow-empty -m "Commit mensal para manter o repositório ativo"
 
     - name: Push commit
       run: git push origin repo/commits-vazios
