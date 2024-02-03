@@ -1,0 +1,31 @@
+name: Commit Vazio Mensal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 1 * *
+
+env:
+  LANG: "pt_BR.UTF-8"
+
+jobs:
+  empty_commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - run: git config user.email ${{ secrets.BOT_EMAIL }}
+    - run: git config user.name "apyb-bot"
+    
+    - name: Altera branch
+      run: git checkout repo/commits-vazios
+
+    - name: Cria commit vazio
+      run: git commit --allow-empty -m "Commit mensal para manter o repositório ativo""
+
+    - name: Push commit
+      run: git push origin repo/commits-vazios
+      env:
+        GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
