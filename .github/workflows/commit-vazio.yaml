@@ -15,13 +15,12 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
+      with:
+        ref: repo/commits-vazios
 
     - run: git config user.email ${{ secrets.BOT_EMAIL }}
     - run: git config user.name "apyb-bot"
     
-    - name: Altera branch
-      run: git checkout repo/commits-vazios
-
     - name: Cria commit vazio
       run: git commit --allow-empty -m "Commit mensal para manter o repositório ativo"
 
