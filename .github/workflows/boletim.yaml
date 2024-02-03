@@ -44,9 +44,9 @@ jobs:
 
           # Define atribuição
           assignees[0]="tiidadavena"
-          assignees[1]="muriloviana"
-          assignees[2]="rougeth"
-          assignees[3]="anadulce"
+          assignees[1]="cecivieira"
+          assignees[2]="naanadr"
+          assignees[3]="anicelysantos"
 
           month=$(date +%m)
           size=${#assignees[@]}
