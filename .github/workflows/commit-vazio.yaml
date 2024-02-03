@@ -1,4 +1,4 @@
-name: Commit vazio para manter o repositório ativo
+name: Commit Vazio Mensal
 
 on:
   workflow_dispatch:
