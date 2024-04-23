@@ -3,7 +3,7 @@ name: Boletim Mensal
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 0 1 * *
+    - cron: 0 0 25 * *
 
 env:
   LANG: "pt_BR.UTF-8"
