@@ -2,7 +2,7 @@
 name: Balanço Financeiro
 about: Balanço Financeiro Mensal
 title: "Balanço Financeiro - <Mês>, <Ano>"
-labels: "Com Prazo"
+labels: "Com Prazo, Financeiro"
 assignees: ''
 ---
 
