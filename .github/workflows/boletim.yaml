@@ -3,7 +3,7 @@ name: Boletim Mensal
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 0 25 * *
+    - cron: 0 0 1 * *
 
 env:
   LANG: "pt_BR.UTF-8"
@@ -23,10 +23,6 @@ jobs:
           sudo locale-gen pt_BR.UTF-8
           sudo update-locale LANG=pt_BR.UTF-8
 
-      - name: date
-        run: |
-          date
-
       - name: Extrai conteúdo do template boletim.md
         uses: imjohnbo/extract-issue-template-fields@v0.0.1
         id: extract
@@ -37,8 +33,8 @@ jobs:
         id: script
         run: |
           # Define título
-          month=$(date +%B)
-          year=$(date +%Y)
+          month=$(date -d '1 day ago' +%B)
+          year=$(date -d '1 day ago' +%Y)
           title="Boletim Informativo de $month de $year"
           echo "::set-output name=title::$title"
 
@@ -48,7 +44,7 @@ jobs:
           assignees[2]="naanadr"
           assignees[3]="anicelysantos"
 
-          month=$(date +%m)
+          month=$(date -d '1 day ago' +%m)
           size=${#assignees[@]}
           index=$(($month % $size))
           echo "::set-output name=assignee::${assignees[$index]}"
