@@ -1,0 +1,47 @@
+name: Balanço Financeiro Mensal
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 1 * *
+
+env:
+  LANG: "pt_BR.UTF-8"
+
+jobs:
+  create_issue:
+    name: Create team sync issue
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      issues: write
+
+    steps:
+      - name: Configura locale
+        run: |
+          sudo locale-gen pt_BR.UTF-8
+          sudo update-locale LANG=pt_BR.UTF-8
+      
+      - name: Extrai conteúdo do template balanco-financeiro.md
+        uses: imjohnbo/extract-issue-template-fields@v0.0.1
+        id: extract
+        with:
+          path: .github/ISSUE_TEMPLATE/balanco-financeiro.md
+
+      - name: Define título da issue
+        id: script
+        run: |
+          # Define título
+          month=$(date -d '1 day ago' +%B)
+          year=$(date -d '1 day ago' +%Y)
+          title="Balanço Financeiro de $month de $year"
+          echo "::set-output name=title::$title"
+
+      - name: Cria issue do balanço financeiro
+        uses: imjohnbo/issue-bot@v3
+        with:
+          assignees: "cecivieira, anicelysantos"
+          labels: ${{ steps.extract.outputs.labels }}
+          title: ${{ steps.script.outputs.title }}
+          body: ${{ steps.extract.outputs.body }}
