@@ -1,15 +1,10 @@
 ---
 name: Balanço Financeiro
 about: Balanço Financeiro Mensal
-title: "Balanço Financeiro - <Mês>, <Ano>"
+title: "Balanço financeiro - <Mês>, <Ano>"
 labels: "Com Prazo, Financeiro"
 assignees: ''
 ---
-
-#### Template
-
-
-Título: Balanço Financeiro, {Mês}, {Ano} 
 
 ## Atividades
 - [ ] Baixe o extrato do mês anterior da conta do Banco do Brasil nos formatos `.bbt`, `.pdf`, `.ofx` e armazene no [drive](https://drive.google.com/drive/folders/0B_CQOAVUY5bRQ2pjbzVocjZMX1E?resourcekey=0-ZJQnlDnbLrHj98yBqr96yg&usp=sharing)
