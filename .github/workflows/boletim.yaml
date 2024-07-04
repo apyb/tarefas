@@ -29,7 +29,7 @@ jobs:
         with:
           path: .github/ISSUE_TEMPLATE/boletim.md
 
-      - name: Define título e atribuição da issue
+      - name: Define título da issue
         id: script
         run: |
           # Define título
@@ -38,21 +38,10 @@ jobs:
           title="Boletim Informativo de $month de $year"
           echo "::set-output name=title::$title"
 
-          # Define atribuição
-          assignees[0]="tiidadavena"
-          assignees[1]="cecivieira"
-          assignees[2]="naanadr"
-          assignees[3]="anicelysantos"
-
-          month=$(date -d '1 day ago' +%m)
-          size=${#assignees[@]}
-          index=$(($month % $size))
-          echo "::set-output name=assignee::${assignees[$index]}"
-
       - name: Cria issue do boletim
         uses: imjohnbo/issue-bot@v3
         with:
-          assignees: ${{ steps.script.outputs.assignee }}
+          assignees: "tiidadavena"
           labels: ${{ steps.extract.outputs.labels }}
           title: ${{ steps.script.outputs.title }}
           body: ${{ steps.extract.outputs.body }}
