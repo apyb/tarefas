@@ -2,7 +2,7 @@
 name: Boletim
 about: Boletim Informativo Mensal
 title: "Boletim Informativo - <Mês>, <Ano>"
-labels: "Com Prazo"
+labels: "Com Prazo, Comunicação"
 assignees: ''
 ---
 
