@@ -1,4 +1,4 @@
-name: Solicitação de Geração de Invoice
+name: Solicitação de Invoice
 
 on: 
   workflow_dispatch:
@@ -37,13 +37,13 @@ jobs:
         uses: imjohnbo/extract-issue-template-fields@v0.0.1
         id: extract
         with:
-          path: .github/ISSUE_TEMPLATE/gerar-invoice.md
+          path: .github/ISSUE_TEMPLATE/solicitacao-invoice.md
 
       - name: Define título e texto
         id: script
         run: |
           # Título
-          TITLE="Solicitação de Geração de Invoice: $EVENT - $SPONSOR"
+          TITLE="Solicitação de Invoice: $EVENT - $SPONSOR"
           # Descrição
           BODY=`sed "s/<evento>/${EVENT}/" <<< $ISSUE | sed "s/<patrocinador>/${SPONSOR}/" | sed "s/<valor>/${VALUE}/" | sed "s/<moeda>/${TYPE_OF_CURRENCY}/"`
           
