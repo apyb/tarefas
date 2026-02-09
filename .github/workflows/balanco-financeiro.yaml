@@ -41,7 +41,7 @@ jobs:
       - name: Cria issue do balanço financeiro
         uses: imjohnbo/issue-bot@v3
         with:
-          assignees: "cecivieira, anicelysantos"
+          assignees: "marcelomiky, julianaklulo"
           labels: ${{ steps.extract.outputs.labels }}
           title: ${{ steps.script.outputs.title }}
           body: ${{ steps.extract.outputs.body }}
