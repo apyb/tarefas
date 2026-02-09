@@ -41,7 +41,7 @@ jobs:
       - name: Cria issue do boletim
         uses: imjohnbo/issue-bot@v3
         with:
-          assignees: "tiidadavena"
+          assignees: "galvsoliveira"
           labels: ${{ steps.extract.outputs.labels }}
           title: ${{ steps.script.outputs.title }}
           body: ${{ steps.extract.outputs.body }}
